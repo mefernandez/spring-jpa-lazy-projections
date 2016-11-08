@@ -10,11 +10,19 @@ import org.springframework.stereotype.Component;
 public class DataInitilizer {
 
 	@Autowired
-	public DataInitilizer(EmployeeRepository employeeRepository) {
+	public DataInitilizer(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+		// Department
+		Department department = new Department();
+		department.setName("Department");
+		departmentRepository.save(department);
 		
-		for (int i=1; i<100; i++) {
+		// Employees
+		int k = 100;
+		
+		for (int i=1; i<k; i++) {
 			Employee employee = new Employee();
 			employee.setName(String.valueOf(employee.hashCode()));
+			employee.setDepartment(department);
 			employeeRepository.save(employee);
 		}
 	}
