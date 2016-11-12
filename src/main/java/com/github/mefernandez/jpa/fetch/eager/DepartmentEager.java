@@ -1,11 +1,11 @@
-package com.github.mefernandez.jpa;
+package com.github.mefernandez.jpa.fetch.eager;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Department {
+public class DepartmentEager {
 	
 	@Id
 	@GeneratedValue

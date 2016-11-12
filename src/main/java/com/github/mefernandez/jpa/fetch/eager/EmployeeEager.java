@@ -1,12 +1,13 @@
-package com.github.mefernandez.jpa;
+package com.github.mefernandez.jpa.fetch.eager;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Employee {
+public class EmployeeEager {
 
 	@Id
 	@GeneratedValue
@@ -14,8 +15,8 @@ public class Employee {
 
 	private String name;
 
-	@ManyToOne
-	private Department department;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private DepartmentEager department;
 
 	public String getName() {
 		return name;
@@ -25,11 +26,11 @@ public class Employee {
 		this.name = name;
 	}
 
-	public Department getDepartment() {
+	public DepartmentEager getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(Department department) {
+	public void setDepartment(DepartmentEager department) {
 		this.department = department;
 	}
 

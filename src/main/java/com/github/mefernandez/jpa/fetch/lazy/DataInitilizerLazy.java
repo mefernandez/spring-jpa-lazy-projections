@@ -1,18 +1,19 @@
-package com.github.mefernandez.jpa;
+package com.github.mefernandez.jpa.fetch.lazy;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
-public class DataInitilizer {
+public class DataInitilizerLazy {
 
 	@Autowired
-	public DataInitilizer(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+	public DataInitilizerLazy(EmployeeLazyRepository employeeRepository, DepartmentLazyRepository departmentRepository) {
 		// Department
-		Department department = new Department();
+		DepartmentLazy department = new DepartmentLazy();
 		department.setName("Department");
 		departmentRepository.save(department);
 		
@@ -20,7 +21,7 @@ public class DataInitilizer {
 		int k = 100;
 		
 		for (int i=1; i<k; i++) {
-			Employee employee = new Employee();
+			EmployeeLazy employee = new EmployeeLazy();
 			employee.setName(String.valueOf(employee.hashCode()));
 			employee.setDepartment(department);
 			employeeRepository.save(employee);
