@@ -15,7 +15,6 @@ public class EmployeeLazyRestController {
 	@Autowired
 	private EmployeeLazyRepository employeeRepository;
 
-	@JsonView(SummaryView.class)
 	@RequestMapping(method = RequestMethod.GET, value = "/lazy/employees")
 	public Page<EmployeeLazy> search(Pageable pageable) {
 		return (Page<EmployeeLazy>) employeeRepository.findAll(pageable);

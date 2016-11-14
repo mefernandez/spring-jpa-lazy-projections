@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,7 +23,7 @@ public class EmployeeRestControllerTest {
 	private MockMvc mvc;
 
 	@Test
-	public void lazyFetchTypeDoesNotSerializeEmployeeDepartmentAndReturns500HttpError() throws Exception {
+	public void lazyFetchTypeSerializesEmployeeDepartmentIfHibernate4Module_Feature_FORCE_LAZY_LOADINGIsEnabled() throws Exception {
 		this.mvc.perform(get("/lazy/employees")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())

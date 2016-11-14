@@ -20,7 +20,6 @@ public class EmployeeLazy {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private DepartmentLazy department;
 
-	@JsonView(SummaryView.class)
 	public String getName() {
 		return name;
 	}
@@ -29,7 +28,6 @@ public class EmployeeLazy {
 		this.name = name;
 	}
 
-	@JsonView(SummaryView.class)
 	public DepartmentLazy getDepartment() {
 		return department;
 	}
