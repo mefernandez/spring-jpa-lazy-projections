@@ -20,6 +20,9 @@ public class EmployeeLazy {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private DepartmentLazy department;
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	private EmployeeLazy boss;
+
 	public String getName() {
 		return name;
 	}
@@ -42,5 +45,13 @@ public class EmployeeLazy {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public EmployeeLazy getBoss() {
+		return boss;
+	}
+
+	public void setBoss(EmployeeLazy boss) {
+		this.boss = boss;
 	}
 }

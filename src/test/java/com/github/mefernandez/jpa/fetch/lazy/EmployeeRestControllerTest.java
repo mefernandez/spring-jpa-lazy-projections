@@ -28,8 +28,18 @@ public class EmployeeRestControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
-				.andExpect(jsonPath("$.content[0].name").isString())
-				.andExpect(jsonPath("$.content[0].department.name").value("Department"));
+				.andExpect(jsonPath("$.content[1].name").isString())
+				.andExpect(jsonPath("$.content[1].department.name").value("Department"));
+	}
+
+	@Test
+	public void lazyFetchTypeSerializesEmployeeBossIfHibernate4Module_Feature_FORCE_LAZY_LOADINGIsEnabled() throws Exception {
+		this.mvc.perform(get("/lazy/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.numberOfElements").value("20"))
+				.andExpect(jsonPath("$.content[1].name").isString())
+				.andExpect(jsonPath("$.content[1].boss.name").value("The Boss"));
 	}
 
 }

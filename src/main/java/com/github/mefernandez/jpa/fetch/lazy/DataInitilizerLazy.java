@@ -17,6 +17,11 @@ public class DataInitilizerLazy {
 		department.setName("Department");
 		departmentRepository.save(department);
 		
+		// Boss
+		EmployeeLazy boss = new EmployeeLazy();
+		boss.setName("The Boss");
+		employeeRepository.save(boss);
+		
 		// Employees
 		int k = 100;
 		
@@ -24,6 +29,7 @@ public class DataInitilizerLazy {
 			EmployeeLazy employee = new EmployeeLazy();
 			employee.setName(String.valueOf(employee.hashCode()));
 			employee.setDepartment(department);
+			employee.setBoss(boss);
 			employeeRepository.save(employee);
 		}
 	}
