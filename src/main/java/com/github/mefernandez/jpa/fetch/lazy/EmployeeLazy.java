@@ -23,6 +23,7 @@ public class EmployeeLazy {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private EmployeeLazy boss;
 
+	@JsonView(SummaryView.class)
 	public String getName() {
 		return name;
 	}
