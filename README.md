@@ -3,10 +3,17 @@ A test case project to dive into JPA fetch types and projections and its impact 
 
 # Intro
 
-For the past few years I've been working on web applications that show tables of data.
-Spring and JPA makes it easy to build CRUD style applications and show pages of data.
+Spring and JPA makes it easy to build CRUD-like REST services.
+A basic feature to implement in this scenario is to show tables of data, with pages support.
 
-However, relationships between objects and high data volume can hurt performance when showing paged data.
-This code repository intends to put together some techniques to improve on performance.
+The goal of this project is to find the best configuration to show high volumes of paged data with minimum code and maximum performance.
 
-# Relationships
+# The model
+
+To test how different configurations work we'll use the tried-and-true Employee-Department scenario.
+
+# Eager loading
+
+# Lazy loading v1: Defaults
+
+# Lazy loading v2: FORCE_LAZY_LOADING
