@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy;
+package com.github.mefernandez.jpa.fetch.eager;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -6,10 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 @Entity
-public class EmployeeLazy {
+public class Employee {
 
 	@Id
 	@GeneratedValue
@@ -17,13 +15,12 @@ public class EmployeeLazy {
 
 	private String name;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	private DepartmentLazy department;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Department department;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	private EmployeeLazy boss;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Employee boss;
 
-	@JsonView(SummaryView.class)
 	public String getName() {
 		return name;
 	}
@@ -32,11 +29,11 @@ public class EmployeeLazy {
 		this.name = name;
 	}
 
-	public DepartmentLazy getDepartment() {
+	public Department getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(DepartmentLazy department) {
+	public void setDepartment(Department department) {
 		this.department = department;
 	}
 
@@ -48,11 +45,11 @@ public class EmployeeLazy {
 		this.id = id;
 	}
 
-	public EmployeeLazy getBoss() {
+	public Employee getBoss() {
 		return boss;
 	}
 
-	public void setBoss(EmployeeLazy boss) {
+	public void setBoss(Employee boss) {
 		this.boss = boss;
 	}
 }

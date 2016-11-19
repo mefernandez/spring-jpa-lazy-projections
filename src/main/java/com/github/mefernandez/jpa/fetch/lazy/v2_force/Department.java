@@ -1,11 +1,11 @@
-package com.github.mefernandez.jpa.fetch.lazy;
+package com.github.mefernandez.jpa.fetch.lazy.v2_force;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class DepartmentLazy {
+public class Department {
 	
 	@Id
 	@GeneratedValue

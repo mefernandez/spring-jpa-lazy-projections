@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy;
+package com.github.mefernandez.jpa.fetch.lazy.v2_force;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

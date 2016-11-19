@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy;
+package com.github.mefernandez.jpa.fetch.lazy.v1_default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
-public class EmployeeLazyRestController {
+public class EmployeeRestController {
 	
 	@Autowired
-	private EmployeeLazyRepository employeeRepository;
+	private EmployeeRepository employeeRepository;
 
-	@JsonView(SummaryView.class)
 	@RequestMapping(method = RequestMethod.GET, value = "/lazy/employees")
-	public Page<EmployeeLazy> search(Pageable pageable) {
-		return (Page<EmployeeLazy>) employeeRepository.findAll(pageable);
+	public Page<Employee> search(Pageable pageable) {
+		return (Page<Employee>) employeeRepository.findAll(pageable);
 	}
 }

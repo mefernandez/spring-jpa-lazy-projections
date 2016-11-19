@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy;
+package com.github.mefernandez.jpa.fetch.lazy.v2_force;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

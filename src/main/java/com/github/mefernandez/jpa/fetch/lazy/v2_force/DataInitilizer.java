@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.eager;
+package com.github.mefernandez.jpa.fetch.lazy.v2_force;
 
 import javax.transaction.Transactional;
 
@@ -8,22 +8,28 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
-public class DataInitilizerEager {
+public class DataInitilizer {
 
 	@Autowired
-	public DataInitilizerEager(EmployeeEagerRepository employeeRepository, DepartmentEagerRepository departmentRepository) {
+	public DataInitilizer(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
 		// Department
-		DepartmentEager department = new DepartmentEager();
+		Department department = new Department();
 		department.setName("Department");
 		departmentRepository.save(department);
+		
+		// Boss
+		Employee boss = new Employee();
+		boss.setName("The Boss");
+		employeeRepository.save(boss);
 		
 		// Employees
 		int k = 100;
 		
 		for (int i=1; i<k; i++) {
-			EmployeeEager employee = new EmployeeEager();
+			Employee employee = new Employee();
 			employee.setName(String.valueOf(employee.hashCode()));
 			employee.setDepartment(department);
+			employee.setBoss(boss);
 			employeeRepository.save(employee);
 		}
 	}

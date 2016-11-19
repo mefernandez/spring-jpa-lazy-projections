@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EmployeeEagerRestController {
+public class EmployeeRestController {
 	
 	@Autowired
-	private EmployeeEagerRepository employeeRepository;
+	private EmployeeRepository employeeRepository;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/eager/employees")
-	public Page<EmployeeEager> search(Pageable pageable) {
-		return (Page<EmployeeEager>) employeeRepository.findAll(pageable);
+	public Page<Employee> search(Pageable pageable) {
+		return (Page<Employee>) employeeRepository.findAll(pageable);
 	}
 }

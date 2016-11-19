@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.eager;
+package com.github.mefernandez.jpa.fetch.lazy.v1_default;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -8,10 +8,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,14 +23,23 @@ public class EmployeeRestControllerTest {
 	private MockMvc mvc;
 
 	@Test
-	public void eagerFetchTypeSerializesAllProperties() throws Exception {
-		this.mvc.perform(get("/eager/employees")
+	public void lazyFetchTypeDoesNotSerializeEmployeeDepartment() throws Exception {
+		this.mvc.perform(get("/lazy/employees")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
 				.andExpect(jsonPath("$.content[1].name").isString())
-				.andExpect(jsonPath("$.content[1].boss.name").isString())
-				.andExpect(jsonPath("$.content[1].department.name").isString());
+				.andExpect(jsonPath("$.content[1].department").isEmpty());
+	}
+
+	@Test
+	public void lazyFetchTypeSerializesEmployeeBoss() throws Exception {
+		this.mvc.perform(get("/lazy/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.numberOfElements").value("20"))
+				.andExpect(jsonPath("$.content[1].name").isString())
+				.andExpect(jsonPath("$.content[1].boss.name").isString());
 	}
 
 }
