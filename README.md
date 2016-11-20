@@ -1,4 +1,6 @@
 # spring-jpa-lazy-projections
+[ ![Codeship Status for mefernandez/spring-jpa-lazy-projections](https://app.codeship.com/projects/8f6f7cb0-9054-0134-93d5-6e4574ccc4bb/status?branch=master)](https://app.codeship.com/projects/185759)
+
 A test case project to dive into JPA fetch types and projections and its impact on performance
 
 # Intro
