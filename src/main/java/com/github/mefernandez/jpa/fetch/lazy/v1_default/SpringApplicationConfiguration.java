@@ -9,6 +9,10 @@ import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 @Configuration
 public class SpringApplicationConfiguration {
 
+	/**
+	 * You need this to get Page class serialized by Jackson.
+	 * @return
+	 */
 	@Bean
 	public Module jacksonHibernate4Module() {
 		Hibernate4Module module = new Hibernate4Module();
