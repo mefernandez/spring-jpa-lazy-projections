@@ -1,10 +1,12 @@
-package com.github.mefernandez.jpa.fetch.lazy.v2_force;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Employee {
@@ -13,8 +15,10 @@ public class Employee {
 	@GeneratedValue
 	private Long id;
 
+	@JsonView(SummaryView.class)
 	private String name;
 
+	@JsonView(SummaryView.class)
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Department department;
 

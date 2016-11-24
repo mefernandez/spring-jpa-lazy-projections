@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.eager;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 

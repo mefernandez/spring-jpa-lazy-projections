@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy.v1_default;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import javax.transaction.Transactional;
 

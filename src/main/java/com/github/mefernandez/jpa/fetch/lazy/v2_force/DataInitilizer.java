@@ -3,7 +3,6 @@ package com.github.mefernandez.jpa.fetch.lazy.v2_force;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component

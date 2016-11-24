@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy.v2_force;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,7 +21,7 @@ public class EmployeeRestControllerTest {
 	private MockMvc mvc;
 
 	@Test
-	public void lazyFetchTypeSerializesEmployeeDepartmentIfHibernate4Module_Feature_FORCE_LAZY_LOADINGIsEnabled() throws Exception {
+	public void lazyFetchTypeSerializesEmployeeDepartment() throws Exception {
 		this.mvc.perform(get("/lazy/employees")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -31,13 +31,13 @@ public class EmployeeRestControllerTest {
 	}
 
 	@Test
-	public void lazyFetchTypeSerializesEmployeeBossIfHibernate4Module_Feature_FORCE_LAZY_LOADINGIsEnabled() throws Exception {
+	public void itShouldNotSerializeBoss() throws Exception {
 		this.mvc.perform(get("/lazy/employees")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
 				.andExpect(jsonPath("$.content[1].name").isString())
-				.andExpect(jsonPath("$.content[1].boss.name").value("The Boss"));
+				.andExpect(jsonPath("$.content[1].boss").isEmpty());
 	}
 
 }
