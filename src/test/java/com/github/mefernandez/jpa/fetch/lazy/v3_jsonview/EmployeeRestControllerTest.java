@@ -37,7 +37,7 @@ public class EmployeeRestControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
 				.andExpect(jsonPath("$.content[1].name").isString())
-				.andExpect(jsonPath("$.content[1].boss").isEmpty());
+				.andExpect(jsonPath("$.content[1].boss").doesNotExist());
 	}
 
 }

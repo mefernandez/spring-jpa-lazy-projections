@@ -21,7 +21,7 @@ public class SpringApplicationConfiguration {
 	@Bean
 	public Module jacksonHibernate4Module() {
 		Hibernate4Module module = new Hibernate4Module();
-		//module.enable(Hibernate4Module.Feature.FORCE_LAZY_LOADING);
+		module.enable(Hibernate4Module.Feature.FORCE_LAZY_LOADING);
 		return module;
 	}
 
