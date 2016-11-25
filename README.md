@@ -178,4 +178,85 @@ Let's move on to find a better way.
 
 # Lazy loading v3: @JsonView
 
+@JsonView lets you define which attributes will get serialized in an HTTP response.
+First, you need to annotate @RestController method handling the request with @JsonView.
+
+```java
+	@JsonView(SummaryView.class)
+	@RequestMapping(method = RequestMethod.GET, value = "/lazy/employees")
+	public Page<Employee> search(Pageable pageable) {
+		Page<Employee> page = (Page<Employee>) employeeRepository.findAll(pageable);
+		PageWithJsonView<Employee> myPage = new PageWithJsonView(page);
+		return myPage;
+	}
+```
+
+This piece of code tells Jackson to serialize only attributes marked with `@JsonView(SummaryView.class)`.
+
+```java
+@Entity
+public class Employee {
+
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	@JsonView(SummaryView.class)
+	private String name;
+
+	@JsonView(SummaryView.class)
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Department department;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Employee boss;
+
+}
+```
+
+In the class above, only `name` and `department` will be serialized.
+The attribute `boss` will not be serialized, since it is not annotated with `@JsonView(SummaryView.class)`.
+
+For the same reason, the class `Page` also need to be annotated.
+Since this class is part of Spring Data library and comes with no annotation, I created a new subclass with all its attributes annotated with `@JsonView(SummaryView.class)`. **Otherwise, the `@RestController` would not serialize anything**.
+
+```java
+public class PageWithJsonView<T> extends PageImpl<T> {
+
+	public PageWithJsonView(Page<T> page) {
+		super(page.getContent());
+	}
+
+	@JsonView(SummaryView.class)
+	@Override
+	public int getTotalPages() {
+		// TODO Auto-generated method stub
+		return super.getTotalPages();
+	}
+
+	@JsonView(SummaryView.class)
+	@Override
+	public long getTotalElements() {
+		// TODO Auto-generated method stub
+		return super.getTotalElements();
+	}
+	
+	@JsonView(SummaryView.class)
+	@Override
+	public int getNumberOfElements() {
+		// TODO Auto-generated method stub
+		return super.getNumberOfElements();
+	}
+	
+	@JsonView(SummaryView.class)
+	@Override
+	public List<T> getContent() {
+		// TODO Auto-generated method stub
+		return super.getContent();
+	}
+
+}
+```
+
+
 # Lazy loading v4: JPA Projections
