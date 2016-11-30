@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview_custom_converter;
 
 import java.util.List;
 
