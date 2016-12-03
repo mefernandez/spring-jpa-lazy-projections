@@ -3,7 +3,14 @@ package com.github.mefernandez.jpa.fetch.eager;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.junit.Assert.*;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +26,10 @@ public class EmployeeRestControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
+	
+	@Rule
+	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
 
 	@Test
 	public void eagerFetchTypeSerializesAllProperties() throws Exception {
@@ -29,6 +40,18 @@ public class EmployeeRestControllerTest {
 				.andExpect(jsonPath("$.content[1].name").isString())
 				.andExpect(jsonPath("$.content[1].boss.name").isString())
 				.andExpect(jsonPath("$.content[1].department.name").isString());
+		
+		assertEquals(2, count("select .* from employee", systemOutRule.getLog()));
+	}
+
+	private int count(String regex, String log) {
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(log);
+		int count = 0;
+		while (matcher.find()) {
+			count ++;
+		}
+		return count;
 	}
 
 }
