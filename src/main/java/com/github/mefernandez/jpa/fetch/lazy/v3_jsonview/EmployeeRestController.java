@@ -18,8 +18,6 @@ public class EmployeeRestController {
 	@JsonView(SummaryView.class)
 	@RequestMapping(method = RequestMethod.GET, value = "/lazy/employees")
 	public Page<Employee> search(Pageable pageable) {
-		Page<Employee> page = (Page<Employee>) employeeRepository.findAll(pageable);
-		PageWithJsonView<Employee> myPage = new PageWithJsonView(page);
-		return myPage;
+		return employeeRepository.findAll(pageable);
 	}
 }

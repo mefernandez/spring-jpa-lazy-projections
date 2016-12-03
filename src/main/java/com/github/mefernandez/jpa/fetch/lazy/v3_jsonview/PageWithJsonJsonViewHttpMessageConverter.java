@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview_custom_converter;
+package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
