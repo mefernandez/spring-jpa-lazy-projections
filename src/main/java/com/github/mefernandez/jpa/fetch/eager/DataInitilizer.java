@@ -12,14 +12,15 @@ import java.util.Locale;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
 public class DataInitilizer {
-
+	
 	@Autowired
-	public DataInitilizer(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) throws ParseException {
+	public DataInitilizer(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository, @Value("#{environment.TOTAL_EMPLOYEES}") String totalEmployees) throws ParseException {
 		// Department
 		Department department = new Department();
 		department.setName("Department");
@@ -31,9 +32,10 @@ public class DataInitilizer {
 		employeeRepository.save(boss);
 		
 		// Employees
-		int k = 100;
+		int k = totalEmployees != null ? Integer.parseInt(totalEmployees) : 100;
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es"));
+		List<Employee> employees = new ArrayList<Employee>();
 		
 		for (int i=1; i<k; i++) {
 			Employee employee = new Employee();
@@ -44,10 +46,12 @@ public class DataInitilizer {
 			Salary salary = new Salary();
 			salary.setFromDate(dateFormat.parse("01/01/2016"));
 			salary.setToDate(dateFormat.parse("31/01/2016"));
-			salary.setSalary(new BigDecimal("1925.78"));
+			salary.setSalary(new BigDecimal(i));
+			salary.setEmployee(employee);
 			salaries.add(salary);
 			employee.setSalaries(salaries);
-			employeeRepository.save(employee);
+			employees.add(employee);
 		}
+		employeeRepository.save(employees);
 	}
 }

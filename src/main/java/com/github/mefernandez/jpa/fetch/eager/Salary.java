@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Salary {
 	
@@ -19,6 +21,8 @@ public class Salary {
 	private Date toDate;
 	private BigDecimal salary;
 	
+	// Avoid infinite serialization
+	@JsonIgnore
 	@ManyToOne
 	private Employee employee;
 	

@@ -2,6 +2,7 @@ package com.github.mefernandez.jpa.fetch.eager;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,8 @@ public class Employee {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Employee boss;
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="employee")
+	// @see Good summary on CascadeType(s) https://vladmihalcea.com/2015/03/05/a-beginners-guide-to-jpa-and-hibernate-cascade-types/
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="employee", cascade = CascadeType.ALL)
 	private List<Salary> salaries;
 	
 	public String getName() {
