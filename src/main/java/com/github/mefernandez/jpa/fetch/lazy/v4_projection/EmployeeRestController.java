@@ -18,7 +18,6 @@ public class EmployeeRestController {
 	@RequestMapping(method = RequestMethod.GET, value = "/lazy/employees")
 	public Page<EmployeeProjection> search(Pageable pageable) {
 		Page<EmployeeProjection> page = (Page<EmployeeProjection>) employeeRepository.findAllProjectedBy(pageable);
-		PageWithJsonView<EmployeeProjection> myPage = new PageWithJsonView(page);
-		return myPage;
+		return page;
 	}
 }

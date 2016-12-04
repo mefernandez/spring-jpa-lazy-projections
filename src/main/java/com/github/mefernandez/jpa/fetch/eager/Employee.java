@@ -1,10 +1,13 @@
 package com.github.mefernandez.jpa.fetch.eager;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Employee {
@@ -21,6 +24,9 @@ public class Employee {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Employee boss;
 
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="employee")
+	private List<Salary> salaries;
+	
 	public String getName() {
 		return name;
 	}
@@ -51,5 +57,13 @@ public class Employee {
 
 	public void setBoss(Employee boss) {
 		this.boss = boss;
+	}
+
+	public List<Salary> getSalaries() {
+		return salaries;
+	}
+
+	public void setSalaries(List<Salary> salaries) {
+		this.salaries = salaries;
 	}
 }

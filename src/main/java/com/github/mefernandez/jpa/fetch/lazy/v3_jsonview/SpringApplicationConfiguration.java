@@ -32,22 +32,5 @@ public class SpringApplicationConfiguration {
 		return module;
 	}
 	
-	/*
-	@Bean
-	public AbstractJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
-			@Autowired MappingJackson2HttpMessageConverter converter) {
-		AbstractJackson2HttpMessageConverter jsonConverter = new PageWithJsonJsonViewHttpMessageConverter(converter);
-		return jsonConverter;
-	}
-	*/
-	
-	/*
-	@Bean
-    public HttpMessageConverters customConverters(@Autowired MappingJackson2HttpMessageConverter converter) {
-        HttpMessageConverter<?> pageWithJsonViewHttpMessageConverter = new PageWithJsonJsonViewHttpMessageConverter(converter);
-        return new HttpMessageConverters(pageWithJsonViewHttpMessageConverter);
-    }
-    */
-
 }
 

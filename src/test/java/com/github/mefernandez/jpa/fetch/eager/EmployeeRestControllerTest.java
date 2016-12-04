@@ -40,8 +40,33 @@ public class EmployeeRestControllerTest {
 				.andExpect(jsonPath("$.content[1].name").isString())
 				.andExpect(jsonPath("$.content[1].boss.name").isString())
 				.andExpect(jsonPath("$.content[1].department.name").isString());
+	}
+
+	@Test
+	public void eagerFetchTypeQueriesEmployeeTableTwice() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
 		
 		assertEquals(2, count("select .* from employee", systemOutRule.getLog()));
+	}
+
+	@Test
+	public void eagerFetchTypeQueriesDepartmentTableOnce() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		
+		assertEquals(1, count("select .* from department", systemOutRule.getLog()));
+	}
+
+	@Test
+	public void eagerFetchTypeQueriesSalaries20Times() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		
+		assertEquals(20, count("select .* from salary", systemOutRule.getLog()));
 	}
 
 	private int count(String regex, String log) {
