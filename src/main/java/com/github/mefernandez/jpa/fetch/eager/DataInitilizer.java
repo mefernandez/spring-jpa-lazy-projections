@@ -36,7 +36,7 @@ public class DataInitilizer {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es"));
 		List<Employee> employees = new ArrayList<Employee>();
-		
+		int checkpoint = 100000;
 		for (int i=1; i<k; i++) {
 			Employee employee = new Employee();
 			employee.setName(String.valueOf(employee.hashCode()));
@@ -51,6 +51,11 @@ public class DataInitilizer {
 			salaries.add(salary);
 			employee.setSalaries(salaries);
 			employees.add(employee);
+			if (i>0 && ((i%checkpoint) == 0)) {
+				System.out.println("DataInitilizer: Checkpoint " + i);
+				employeeRepository.save(employees);
+				employees.clear();
+			}
 		}
 		employeeRepository.save(employees);
 	}

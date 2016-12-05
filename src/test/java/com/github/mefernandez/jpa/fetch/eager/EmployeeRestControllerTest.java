@@ -1,12 +1,11 @@
 package com.github.mefernandez.jpa.fetch.eager;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.junit.Assert.*;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -69,6 +69,24 @@ public class EmployeeRestControllerTest {
 		assertEquals(20, count("select .* from salary", systemOutRule.getLog()));
 	}
 
+	@Test
+	public void eagerFetchTypeTotal() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+		
+		assertEquals(23, count("select .* from", systemOutRule.getLog()));
+	}
+
+	@Test
+	public void eagerFetchJSONTotalCharacters() throws Exception {
+		MvcResult response = this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andReturn();
+		
+		assertEquals(7703, response.getResponse().getContentAsString().length());
+	}
 	private int count(String regex, String log) {
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(log);

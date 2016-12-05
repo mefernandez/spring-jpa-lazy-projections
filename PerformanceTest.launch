@@ -7,7 +7,7 @@
 <listEntry value="1"/>
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="TOTAL_EMPLOYEES" value="100"/>
+<mapEntry key="TOTAL_EMPLOYEES" value="10000000"/>
 </mapAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
@@ -21,4 +21,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.github.mefernandez.jpa.fetch.eager.PerformanceTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="spring-jpa-lazy-projections"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=performance"/>
 </launchConfiguration>
