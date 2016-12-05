@@ -24,15 +24,15 @@ I'm using [Eclipse Neon](http://www.eclipse.org/) to develop this scenario.
 
 # The model
 
-To test how different configurations work we'll use the tried-and-true Employee-Department scenario.
+To test how different configurations work we'll use the tried-and-true Employee-Salary-Department scenario.
 
-![Employee-Department Class Diagram](http://yuml.me/6a340d30)
+![Employee-Salary-Department Class Diagram](http://yuml.me/6d87bf16)
 
-http://yuml.me/edit/6a340d30
+http://yuml.me/edit/6d87bf16
+In this model, an Employee has a historical record of Salaries, is in a Department and has a boss, who is also an Employee.
 
-In this model, an Employee is in a Department and has a boss, who is also an Employee.
-
-In terms of Java and JPA, there are only two classes, Employee and Department, and two JPA @ManyToOne relationships.
+In terms of Java and JPA, there are only three classes (entities), Employee, Salary and Department. 
+There are also @OneToMany and @ManyToOne relationships.
 
 ```java
 @Entity
@@ -44,11 +44,31 @@ public class Employee {
 
 	private String name;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private Department department;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private Employee boss;
+
+	@OneToMany
+	private List<Salary> salaries;
+}
+
+@Entity
+public class Salary {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	private Date fromDate;
+	private Date toDate;
+	private BigDecimal salary;
+	
+	// Avoid infinite serialization
+	@JsonIgnore
+	@ManyToOne
+	private Employee employee;
 }
 
 @Entity
@@ -103,15 +123,33 @@ public class Employee {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Employee boss;
+
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="employee", cascade = CascadeType.ALL)
+	private List<Salary> salaries;
+}
 ```
 
-So, how does it perform? Here's how in terms of our criteria:
+## Performance
+So, how does it perform? Here's how in terms of our criteria, with a default of 100 total Employees and 20 items per page:
 
-1. SQL queries:
-2. Serialization:
-3. Overall time spent:
+|Select From|JSON length|
+|----------:|----------:|
+|23         |7703       |
 
+SQL queries: 1 COUNT from Employee, 1 from Employee, 1 from Department and 20 for Salary
 As easy as it is, egaer loading will fetch unnecessary information, causing SQL and serialization overhead.
+
+|Employess|Fist Page|Last Page|Search By Salary|All-in-One|
+|--------:|--------:|--------:|---------------:|---------:|
+|        1|     0.01|     0.01|            0.01|      0.01|
+|       10|     0.01|     0.01|            0.02|      0.01|
+|      100|     0.02|     0.01|            0.03|      0.01|
+|     1000|     0.01|     0.01|            0.03|      0.01|
+|    10000|     0.01|     0.02|            0.04|      0.27|
+|   100000|     0.02|     0.01|            0.17|      0.27|
+|       1M|     0.02|     0.01|            1.22|      0.22|
+|      10M|     0.00|     0.00|            0.00|      0.00|
+
 
 # Lazy loading v1: Defaults
 
