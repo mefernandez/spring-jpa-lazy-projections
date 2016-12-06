@@ -1,11 +1,9 @@
 package com.github.mefernandez.jpa.fetch.eager;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,7 +37,7 @@ public class DataInitilizer {
 		int checkpoint = 100000;
 		for (int i=1; i<k; i++) {
 			Employee employee = new Employee();
-			employee.setName(String.valueOf(employee.hashCode()));
+			employee.setName(String.valueOf(employee.hashCode()).substring(0, 3));
 			employee.setDepartment(department);
 			employee.setBoss(boss);
 			List<Salary> salaries = new ArrayList<Salary>();

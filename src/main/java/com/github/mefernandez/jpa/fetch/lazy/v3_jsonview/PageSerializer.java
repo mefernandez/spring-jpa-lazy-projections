@@ -1,15 +1,10 @@
 package com.github.mefernandez.jpa.fetch.lazy.v3_jsonview;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 

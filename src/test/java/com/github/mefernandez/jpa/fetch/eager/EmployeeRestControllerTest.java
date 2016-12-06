@@ -3,6 +3,7 @@ package com.github.mefernandez.jpa.fetch.eager;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,14 +33,39 @@ public class EmployeeRestControllerTest {
 
 
 	@Test
-	public void eagerFetchTypeSerializesAllProperties() throws Exception {
+	public void eagerFetchTypeSerializesEmployeeName() throws Exception {
 		this.mvc.perform(get("/eager/employees")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
-				.andExpect(jsonPath("$.content[1].name").isString())
-				.andExpect(jsonPath("$.content[1].boss.name").isString())
+				.andExpect(jsonPath("$.content[1].name").isString());
+	}
+
+	@Test
+	public void eagerFetchTypeSerializesBossName() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.numberOfElements").value("20"))
+				.andExpect(jsonPath("$.content[1].boss.name").isString());
+	}
+
+	@Test
+	public void eagerFetchTypeSerializesDepartmentName() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.numberOfElements").value("20"))
 				.andExpect(jsonPath("$.content[1].department.name").isString());
+	}
+
+	@Test
+	public void eagerFetchTypeSerializesSalaries() throws Exception {
+		this.mvc.perform(get("/eager/employees")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.numberOfElements").value("20"))
+				.andExpect(jsonPath("$.content[1].salaries[0].salary").isNumber());
 	}
 
 	@Test
@@ -85,7 +111,7 @@ public class EmployeeRestControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		assertEquals(4631, response.getResponse().getContentAsString().replaceAll("[\\s\\t]", "").length());
+		assertEquals(7576, response.getResponse().getContentAsString().length());
 	}
 	private int count(String regex, String log) {
 		Pattern pattern = Pattern.compile(regex);
