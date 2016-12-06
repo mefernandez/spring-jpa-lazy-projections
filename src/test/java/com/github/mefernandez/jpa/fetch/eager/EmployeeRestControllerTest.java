@@ -85,7 +85,7 @@ public class EmployeeRestControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		assertEquals(7703, response.getResponse().getContentAsString().length());
+		assertEquals(4631, response.getResponse().getContentAsString().replaceAll("[\\s\\t]", "").length());
 	}
 	private int count(String regex, String log) {
 		Pattern pattern = Pattern.compile(regex);
