@@ -111,7 +111,7 @@ public class EmployeeRestControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		assertEquals(1862, response.getResponse().getContentAsString().length());
+		assertEquals(1737, response.getResponse().getContentAsString().length());
 	}
 	private int count(String regex, String log) {
 		Pattern pattern = Pattern.compile(regex);

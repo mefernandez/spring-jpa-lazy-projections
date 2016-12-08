@@ -65,7 +65,7 @@ public class EmployeeRestControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.numberOfElements").value("20"))
-				.andExpect(jsonPath("$.content[1].salaries").isEmpty());
+				.andExpect(jsonPath("$.content[1].salaries").isNotEmpty());
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class EmployeeRestControllerTest {
 				.andExpect(status().isOk())
 				.andReturn();
 		
-		assertEquals(5554, response.getResponse().getContentAsString().length());
+		assertEquals(7576, response.getResponse().getContentAsString().length());
 	}
 	private int count(String regex, String log) {
 		Pattern pattern = Pattern.compile(regex);
