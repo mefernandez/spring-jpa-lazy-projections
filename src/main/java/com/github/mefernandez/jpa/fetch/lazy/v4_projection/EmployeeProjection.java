@@ -4,7 +4,7 @@ public interface EmployeeProjection {
 
 	String getName();
 
-	Department getDepartment();
+	DepartmentProjection getDepartment();
 
 	Long getId();
 

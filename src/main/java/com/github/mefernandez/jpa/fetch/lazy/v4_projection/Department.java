@@ -13,7 +13,6 @@ public class Department {
 	@GeneratedValue
 	private Long id;
 
-	@JsonView(SummaryView.class)
 	private String name;
 
 	public String getName() {

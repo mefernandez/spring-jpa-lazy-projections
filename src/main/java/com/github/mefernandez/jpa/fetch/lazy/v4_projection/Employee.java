@@ -19,10 +19,8 @@ public class Employee {
 	@GeneratedValue
 	private Long id;
 
-	@JsonView(SummaryView.class)
 	private String name;
 
-	@JsonView(SummaryView.class)
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Department department;
 
