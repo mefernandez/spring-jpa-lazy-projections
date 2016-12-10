@@ -87,7 +87,7 @@ public class Department {
 The goal is to code an HTTP service that returns a JSON listing all Employees by pages.
 In Spring, that's a @RestController.
 
-We want to show the Employee's name and Department, and **not** the boss.
+We want to show the Employee's name and Department, and **not** the boss **nor** the salaries.
 
 |Name|Department|
 |----|----------|
@@ -128,27 +128,6 @@ public class Employee {
 	private List<Salary> salaries;
 }
 ```
-
-## Performance
-So, how does it perform? Here's how in terms of our criteria, with a default of 100 total Employees and 20 items per page:
-
-|Select From|JSON length|
-|----------:|----------:|
-|23         |7703       |
-
-SQL queries: 1 COUNT from Employee, 1 from Employee, 1 from Department and 20 for Salary
-As easy as it is, egaer loading will fetch unnecessary information, causing SQL and serialization overhead.
-
-|Employess|Fist Page|Last Page|Search By Salary|All-in-One|
-|--------:|--------:|--------:|---------------:|---------:|
-|        1|     0.01|     0.01|            0.01|      0.01|
-|       10|     0.01|     0.01|            0.02|      0.01|
-|      100|     0.02|     0.01|            0.03|      0.01|
-|     1000|     0.01|     0.01|            0.03|      0.01|
-|    10000|     0.01|     0.02|            0.04|      0.27|
-|   100000|     0.02|     0.01|            0.17|      0.27|
-|       1M|     0.02|     0.01|            1.22|      0.22|
-|      10M|     0.00|     0.00|            0.00|      0.00|
 
 
 # Lazy loading v1: Defaults
@@ -298,3 +277,31 @@ public class PageWithJsonView<T> extends PageImpl<T> {
 
 
 # Lazy loading v4: JPA Projections
+
+
+# Performance
+Here's how each approach performs in terms of our criteria, with a default of 100 total Employees and 20 items per page:
+
+|Version   |Select From|JSON length|
+|----------|----------:|----------:|
+|Eager     |23         |7703       |
+|Default   |2          |4574       |
+|Force     |23         |7576       |
+|JsonView  |3          |1737       |
+|Projection|2          |2081       |
+
+
+# Benchmarks for Eager
+
+|Employees|Fist Page|Last Page|Search By Salary|All-in-One|
+|--------:|--------:|--------:|---------------:|---------:|
+|        1|     0.01|     0.01|            0.01|      0.01|
+|       10|     0.01|     0.01|            0.02|      0.01|
+|      100|     0.02|     0.01|            0.03|      0.01|
+|     1000|     0.01|     0.01|            0.03|      0.01|
+|    10000|     0.01|     0.02|            0.04|      0.27|
+|   100000|     0.02|     0.01|            0.17|      0.27|
+|       1M|     0.02|     0.01|            1.22|      0.22|
+|      10M|     0.00|     0.00|            0.00|      0.00|
+
+# Benchmars for Projection
