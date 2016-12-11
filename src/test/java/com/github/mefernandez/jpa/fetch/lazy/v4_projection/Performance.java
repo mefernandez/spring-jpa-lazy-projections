@@ -1,4 +1,4 @@
-package com.github.mefernandez.jpa.fetch.eager;
+package com.github.mefernandez.jpa.fetch.lazy.v4_projection;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -18,7 +18,7 @@ import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PerformanceTest extends AbstractBenchmark {
+public class Performance extends AbstractBenchmark {
 
 	@Autowired
 	private MockMvc mvc;
@@ -34,7 +34,7 @@ public class PerformanceTest extends AbstractBenchmark {
 	@Test
 	public void testPerformanceGetFirstPage() throws Exception {
 		String expectedTotalCount = String.valueOf(totalEmployees);
-		this.mvc.perform(get("/eager/employees")
+		this.mvc.perform(get("/lazy/employees")
 				.param("page", "1")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -45,7 +45,7 @@ public class PerformanceTest extends AbstractBenchmark {
 	public void testPerformanceGetLastPage() throws Exception {
 		String lastPage = getLastPage(20);
 		String expectedTotalCount = String.valueOf(totalEmployees);
-		this.mvc.perform(get("/eager/employees")
+		this.mvc.perform(get("/lazy/employees")
 				.param("page", lastPage)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -57,7 +57,7 @@ public class PerformanceTest extends AbstractBenchmark {
 	public void testPerformanceSearchBySalaryExpectingToMatchHalfOfTotalEmployees() throws Exception {
 		String salaryFrom = String.valueOf((int)totalEmployees / 2);
 		String expectedTotalCount = salaryFrom;
-		this.mvc.perform(get("/eager/employees")
+		this.mvc.perform(get("/lazy/employees")
 				.param("salaryFrom", salaryFrom)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -68,7 +68,7 @@ public class PerformanceTest extends AbstractBenchmark {
 	public void testPerformanceGetAllEmployeesInOnePage() throws Exception {
 		String expectedTotalCount = String.valueOf(totalEmployees);
 		String pageSize = String.valueOf(totalEmployees);
-		this.mvc.perform(get("/eager/employees")
+		this.mvc.perform(get("/lazy/employees")
 				.param("page", "1")
 				.param("size", pageSize)
 				.accept(MediaType.APPLICATION_JSON))

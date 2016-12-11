@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/spring-jpa-lazy-projections/src/test/java/com/github/mefernandez/jpa/fetch/eager/PerformanceTest.java"/>
+<listEntry value="/spring-jpa-lazy-projections/src/test/java/com/github/mefernandez/jpa/fetch/eager/Performance.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -18,7 +18,7 @@
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.github.mefernandez.jpa.fetch.eager.PerformanceTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.github.mefernandez.jpa.fetch.eager.Performance"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="spring-jpa-lazy-projections"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dspring.profiles.active=performance"/>
