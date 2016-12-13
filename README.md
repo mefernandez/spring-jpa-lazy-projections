@@ -234,53 +234,66 @@ public class Employee {
 In the class above, only `name` and `department` will be serialized.
 The attribute `boss` will not be serialized, since it is not annotated with `@JsonView(SummaryView.class)`.
 
-For the same reason, the class `Page` also need to be annotated.
-Since this class is part of Spring Data library and comes with no annotation, I created a new subclass with all its attributes annotated with `@JsonView(SummaryView.class)`. **Otherwise, the `@RestController` would not serialize anything**.
+For the same reason, the class `Page` returned by the controller will not get serialized as it is not annotated with `@JsonView(SummaryView.class)`. However, we cannot annotate it since this class is part of Spring Data library and comes with no annotation.
+
+The solution is to configure a custom `PageSerializer` like this:
 
 ```java
-public class PageWithJsonView<T> extends PageImpl<T> {
-
-	public PageWithJsonView(Page<T> page) {
-		super(page.getContent());
-	}
-
-	@JsonView(SummaryView.class)
-	@Override
-	public int getTotalPages() {
-		// TODO Auto-generated method stub
-		return super.getTotalPages();
-	}
-
-	@JsonView(SummaryView.class)
-	@Override
-	public long getTotalElements() {
-		// TODO Auto-generated method stub
-		return super.getTotalElements();
-	}
+public class PageSerializer extends StdSerializer<PageImpl> {
 	
-	@JsonView(SummaryView.class)
-	@Override
-	public int getNumberOfElements() {
-		// TODO Auto-generated method stub
-		return super.getNumberOfElements();
+	public PageSerializer() {
+		super(PageImpl.class);
 	}
-	
-	@JsonView(SummaryView.class)
+
 	@Override
-	public List<T> getContent() {
-		// TODO Auto-generated method stub
-		return super.getContent();
+	public void serialize(PageImpl value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+		gen.writeStartObject();
+		gen.writeNumberField("number", value.getNumber());
+		gen.writeNumberField("numberOfElements", value.getNumberOfElements());
+		gen.writeNumberField("totalElements", value.getTotalElements());
+		gen.writeNumberField("totalPages", value.getTotalPages());
+		gen.writeNumberField("size", value.getSize());
+		gen.writeFieldName("content");
+		provider.defaultSerializeValue(value.getContent(), gen);
+		gen.writeEndObject();
 	}
 
 }
 ```
 
+...and configure it at startup...
+
+```java
+@Configuration
+public class SpringApplicationConfiguration {
+
+	@Bean
+	public Module jacksonHibernate4Module() {
+		Hibernate4Module module = new Hibernate4Module();
+		module.enable(Hibernate4Module.Feature.FORCE_LAZY_LOADING);
+		return module;
+	}
+
+	// @see http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-customize-the-jackson-objectmapper
+	@Bean
+	public Module jacksonPageWithJsonViewModule() {
+		SimpleModule module = new SimpleModule("jackson-page-with-jsonview", Version.unknownVersion());
+		module.addSerializer(PageImpl.class, new PageSerializer());
+		return module;
+	}
+	
+}
+```
+Now `Page` class will get serialized regardless of `@JsonView` annotations.
 
 # Lazy loading v4: JPA Projections
 
+**TODO**
 
 # Performance
-Here's how each approach performs in terms of our criteria, with a default of 100 total Employees and 20 items per page:
+
+Here's how each approach performs.
+Let's look at how many SQLs each strategy needed and the length of its response, couting 100 total Employees and 20 items per page:
 
 |Version   |Select From|JSON length|
 |----------|----------:|----------:|
@@ -290,8 +303,11 @@ Here's how each approach performs in terms of our criteria, with a default of 10
 |JsonView  |3          |1737       |
 |Projection|2          |2081       |
 
+Two numbers stand out.
+**TODO**
 
-# Benchmarks for Eager
+## Benchmarks
+
 |Version   |Select From|JSON length|
 |----------|----------:|----------:|
 |Eager     |23         |7703       |
